@@ -6,7 +6,7 @@ import Login from './pages/auth/login';
 import Signup from './pages/auth/Signup';
 import LandingPage from './pages/landingPage';
 import Dashboard from './pages/home/Dashboard';
-import InterviewPrep from './pages/interviewPrep/interviewPrep';
+import InterviewPrep from './pages/interviewPrep/InterviewPrep';
 import UserProvider from './context/UserProvider';
 
 const App = () => {
