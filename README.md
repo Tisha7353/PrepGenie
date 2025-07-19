@@ -19,40 +19,61 @@ An intelligent interview preparation platform that generates personalized questi
 
 ### 📊 Interactive Dashboard
 
-🛠 Tech Stack
-Category	Technologies Used
-Frontend:	React, Framer Motion, Tailwind CSS, Axios
-Backend:	Node.js, Express, MongoDB (Mongoose)
-AI	Google Gemini API
-Auth	JWT, bcrypt, cookie-parser
-State	Context API, localStorage
-Deployment	Vercel (Frontend), Render (Backend)
-🚀 Getting Started
-Prerequisites
-Node.js v18+
+## 🛠 Tech Stack
 
-MongoDB Atlas cluster
+### **Frontend**
+<div align="left">
+  <img src="https://img.shields.io/badge/React-20232A?logo=react&logoColor=61DAFB" alt="React">
+  <img src="https://img.shields.io/badge/Framer_Motion-0055FF?logo=framer&logoColor=white" alt="Framer Motion">
+  <img src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?logo=tailwind-css&logoColor=white" alt="Tailwind CSS">
+  <img src="https://img.shields.io/badge/Axios-5A29E4?logo=axios&logoColor=white" alt="Axios">
+</div>
 
-Google Gemini API key
+### **Backend**
+<div align="left">
+  <img src="https://img.shields.io/badge/Node.js-339933?logo=node.js&logoColor=white" alt="Node.js">
+  <img src="https://img.shields.io/badge/Express-000000?logo=express&logoColor=white" alt="Express">
+  <img src="https://img.shields.io/badge/MongoDB-47A248?logo=mongodb&logoColor=white" alt="MongoDB">
+  <img src="https://img.shields.io/badge/Mongoose-880000?logo=mongodb&logoColor=white" alt="Mongoose">
+</div>
 
-Installation
+### **AI & Other Services**
+<div align="left">
+  <img src="https://img.shields.io/badge/Gemini_AI-4285F4?logo=google&logoColor=white" alt="Gemini AI">
+  <img src="https://img.shields.io/badge/JWT-000000?logo=json-web-tokens&logoColor=white" alt="JWT">
+  <img src="https://img.shields.io/badge/Vercel-000000?logo=vercel&logoColor=white" alt="Vercel">
+  <img src="https://img.shields.io/badge/Render-46E3B7?logo=render&logoColor=white" alt="Render">
+</div>
+
+## 🚀 Getting Started
+
+### Prerequisites
+Before you begin, ensure you have the following installed:
+
+- [Node.js v18+](https://nodejs.org/)
+- [MongoDB Atlas account](https://www.mongodb.com/atlas/database)
+- [Google Gemini API key](https://ai.google.dev/)
+
+### Installation
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/yourusername/prepgenie.git
+   cd prepgenie
+Install dependencies:
+
 bash
-# Clone the repository
-git clone https://github.com/yourusername/prepgenie.git
+# Install backend dependencies
+cd backend
+npm install
 
-# Install dependencies
-cd prepgenie && npm install
-cd client && npm install
+# Install frontend dependencies
+cd frontend
+npm install
+Set up environment variables:
 
-# Set up environment variables
-cp .env.example .env
-# Add your MongoDB URI and Gemini API key
+Required environment variables:
 
-🖥️ Running the App
-bash
-# Start backend (from root)
-npm run dev
-
-# Start frontend (from /client)
-npm start
-
+text
+MONGO_URI=your_mongodb_atlas_connection_string
+GEMINI_API_KEY=your_google_gemini_api_key
+JWT_SECRET=your_jwt_secret_key
