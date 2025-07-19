@@ -61,27 +61,37 @@ Before you begin, ensure you have the following installed:
 - [Google Gemini API key](https://ai.google.dev/)
 
 ### Installation
+
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/Tisha7353/PrepGenie
-   cd prepgenie
-2. Install dependencies:
+   git clone https://github.com/Tisha7353/PrepGenie.git
+   cd PrepGenie
+Install dependencies:
 
 bash
 # Install backend dependencies
-```bash
 cd backend
 npm install
 
 # Install frontend dependencies
-```bash
-cd frontend
+cd ../frontend
 npm install
-
 Set up environment variables:
 
-Required environment variables:
-```bash
+bash
+# Copy the example environment file
+cp .env.example .env
+Then edit the .env file with these required variables:
+
+bash
 MONGO_URI=your_mongodb_atlas_connection_string
 GEMINI_API_KEY=your_google_gemini_api_key
 JWT_SECRET=your_jwt_secret_key
+Run the application:
+
+bash
+# Start backend (from backend directory)
+npm run dev
+
+# Start frontend (from frontend directory)
+npm start
