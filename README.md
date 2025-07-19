@@ -59,7 +59,7 @@ Before you begin, ensure you have the following installed:
    ```bash
    git clone https://github.com/yourusername/prepgenie.git
    cd prepgenie
-Install dependencies:
+2. Install dependencies:
 
 bash
 # Install backend dependencies
@@ -69,6 +69,7 @@ npm install
 # Install frontend dependencies
 cd frontend
 npm install
+
 Set up environment variables:
 
 Required environment variables:
