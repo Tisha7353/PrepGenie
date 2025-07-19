@@ -68,7 +68,7 @@ Before you begin, ensure you have the following installed:
    cd PrepGenie
 Install dependencies:
 
-bash
+```bash
 # Install backend dependencies
 cd backend
 npm install
@@ -78,18 +78,18 @@ cd ../frontend
 npm install
 Set up environment variables:
 
-bash
+```bash
 # Copy the example environment file
 cp .env.example .env
 Then edit the .env file with these required variables:
 
-bash
+```bash
 MONGO_URI=your_mongodb_atlas_connection_string
 GEMINI_API_KEY=your_google_gemini_api_key
 JWT_SECRET=your_jwt_secret_key
 Run the application:
 
-bash
+```bash
 # Start backend (from backend directory)
 npm run dev
 
