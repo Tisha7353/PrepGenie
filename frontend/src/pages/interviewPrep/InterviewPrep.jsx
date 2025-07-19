@@ -42,43 +42,38 @@ const InterviewPrep = () => {
 
   // Generate Concept Explanation
   // Generate Concept Explanation
-  const generateConceptExplanation = async (question) => {
-    try {
-      setErrorMsg("");
-      setExplanation(null);
+ const generateConceptExplanation = async (question) => {
+  try {
+    setErrorMsg("");
+    setExplanation(null);
+    setIsLoading(true);
+    setOpenLeanMoreDrawer(true);
 
-      setIsLoading(true);
-      setOpenLeanMoreDrawer(true);
+    const response = await axiosInstance.post(
+      API_PATHS.AI.GENERATE_EXPLANATION,
+      { question }
+    );
 
-      const response = await axiosInstance.post(
-        API_PATHS.AI.GENERATE_EXPLANATION,
-        {
-          question,
-        }
-      );
-
-      if (response.data) {
-       setExplanation({
-  title: response.data.title,
-  explanation: typeof response.data.explanation === "string"
-    ? response.data.explanation
-    : JSON.stringify(response.data.explanation, null, 2),
-});
-
+    if (response.data) {
+      // Normalize the response structure
+      let normalized = response.data;
+      
+      // Handle nested explanation case
+      if (normalized.explanation && typeof normalized.explanation === 'object') {
+        normalized = {
+          title: normalized.explanation.title || normalized.title,
+          explanation: normalized.explanation.explanation
+        };
       }
-    }
-    catch (error) {
-      setExplanation(null);
-      setErrorMsg("Failed to generate explaination, Please try again later");
-      console.error("Error", error)
-    }
 
-    finally {
-      setIsLoading(false)
+      setExplanation(normalized);
     }
+  } catch (error) {
+    // ... error handling
+  } finally {
+    setIsLoading(false);
   }
-
-  
+};
   // Pin Question
   const toggleQuestionPinStatus = async (questionId) => {
     try {
@@ -235,29 +230,17 @@ console.log("Response from backedn",aiResponse)
           <Drawer
   isOpen={openLeanMoreDrawer}
   onClose={() => setOpenLeanMoreDrawer(false)}
-  title={!isLoading && explanation?.title}
+  title={explanation?.title}
 >
-  {(() => {
-    if (errorMsg) {
-      return (
-        <p className="flex gap-2 text-sm text-amber-600 font-medium">
-          <LuCircleAlert className="mt-1" /> {errorMsg}
-        </p>
-      );
-    }
-
-    if (isLoading) {
-      return <SkeletonLoader />;
-    }
-
-    if (explanation) {
-      console.log("EXPLANATION PREVIEW CONTENT", explanation?.explanation);
-
-      return <AIResponsePreview content={explanation.explanation} />;
-    }
-
-    return null; 
-  })()}
+  {errorMsg ? (
+    <p className="flex gap-2 text-sm text-amber-600 font-medium">
+      <LuCircleAlert className="mt-1" /> {errorMsg}
+    </p>
+  ) : isLoading ? (
+    <SkeletonLoader />
+  ) : explanation ? (
+    <AIResponsePreview content={explanation} />
+  ) : null}
 </Drawer>
 
         </div>

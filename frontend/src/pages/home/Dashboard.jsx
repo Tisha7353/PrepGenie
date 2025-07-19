@@ -18,6 +18,10 @@ const Dashboard = () => {
   const [openCreateModal, setOpenCreateModal] = useState(false);
   const [sessions, setSessions] = useState([]);
   const [openDeleteAlert, setOpenDeleteAlert] = useState({ open: false, data: null });
+  
+  useEffect(() => {
+  document.title = " Dashboard | PrepGenie";
+  }, []);
 
   const fetchAllSessions = async () => {
     try {

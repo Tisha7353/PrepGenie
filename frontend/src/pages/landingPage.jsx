@@ -8,6 +8,7 @@ import Login from "./auth/login"
 import Signup from "./auth/Signup"
 import { UserContext } from '../context/UserContext';
 import ProfileInfoCard from '../components/cards/ProfileInfoCard';
+import Logo from '../components/Logo';
 const LandingPage = () => {
   const {user}=useContext(UserContext)
   const navigate = useNavigate();
@@ -31,7 +32,7 @@ const LandingPage = () => {
         <div className="container mx-auto px-8 md:px-32 pt-6 pb-[100px] relative z-10">
           {/* Header */}
           <header className="flex justify-between items-center mb-16">
-            <div className="text-xl text-black font-bold">PrepGenie</div>
+            <div className="text-xl text-black font-bold cursor-pointer w-48 h-full sm:w-32 md:w-60 lg:w-67 "  onClick={()=> navigate("/")}> <Logo  /></div>
            {user?(<ProfileInfoCard/>):( <button
               onClick={() => setOpenAuthModal(true)}
               className="bg-gradient-to-r from-[#FF9324] to-[#e99a4b] text-sm font-semibold text-white px-7 py-2.5 rounded-full hover:bg-black hover:text-white border border-white transition-colors cursor-pointer"
