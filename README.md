@@ -17,7 +17,14 @@ An intelligent interview preparation platform that generates personalized questi
 - Protected routes with role-based access control
 - Password encryption using bcrypt
 
-### 📊 Interactive Dashboard
+## 📊 Interactive Dashboard
+
+The dashboard provides comprehensive management of your interview preparation sessions:
+
+### Key Features
+- **Session History**: View all previously generated interviews and manage them
+- **Question Management**: Pin/Unpin important questions and add more
+ 
 
 ## 🛠 Tech Stack
 
@@ -57,24 +64,25 @@ Before you begin, ensure you have the following installed:
 ### Installation
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/yourusername/prepgenie.git
+   git clone https://github.com/Tisha7353/PrepGenie
    cd prepgenie
 2. Install dependencies:
 
 bash
 # Install backend dependencies
+```bash
 cd backend
 npm install
 
 # Install frontend dependencies
+```bash
 cd frontend
 npm install
 
 Set up environment variables:
 
 Required environment variables:
-
-text
+```bash
 MONGO_URI=your_mongodb_atlas_connection_string
 GEMINI_API_KEY=your_google_gemini_api_key
 JWT_SECRET=your_jwt_secret_key
