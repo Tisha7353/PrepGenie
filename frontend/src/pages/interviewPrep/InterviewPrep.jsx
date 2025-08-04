@@ -32,7 +32,7 @@ const InterviewPrep = () => {
       );
 
       if (response.data && response.data.session) {
-        
+
         setSessionData(response.data.session);
       }
     } catch (error) {
@@ -40,40 +40,40 @@ const InterviewPrep = () => {
     }
   };
 
-  // Generate Concept Explanation
-  // Generate Concept Explanation
- const generateConceptExplanation = async (question) => {
-  try {
-    setErrorMsg("");
-    setExplanation(null);
-    setIsLoading(true);
-    setOpenLeanMoreDrawer(true);
 
-    const response = await axiosInstance.post(
-      API_PATHS.AI.GENERATE_EXPLANATION,
-      { question }
-    );
+  // Generate Concept Explanation
+  const generateConceptExplanation = async (question) => {
+    try {
+      setErrorMsg("");
+      setExplanation(null);
+      setIsLoading(true);
+      setOpenLeanMoreDrawer(true);
 
-    if (response.data) {
-      // Normalize the response structure
-      let normalized = response.data;
-      
-      // Handle nested explanation case
-      if (normalized.explanation && typeof normalized.explanation === 'object') {
-        normalized = {
-          title: normalized.explanation.title || normalized.title,
-          explanation: normalized.explanation.explanation
-        };
+      const response = await axiosInstance.post(
+        API_PATHS.AI.GENERATE_EXPLANATION,
+        { question }
+      );
+
+      if (response.data) {
+        // Normalize the response structure
+        let normalized = response.data;
+
+        // Handle nested explanation case
+        if (normalized.explanation && typeof normalized.explanation === 'object') {
+          normalized = {
+            title: normalized.explanation.title || normalized.title,
+            explanation: normalized.explanation.explanation
+          };
+        }
+
+        setExplanation(normalized);
       }
-
-      setExplanation(normalized);
+    } catch (error) {
+      // ... error handling
+    } finally {
+      setIsLoading(false);
     }
-  } catch (error) {
-    // ... error handling
-  } finally {
-    setIsLoading(false);
-  }
-};
+  };
   // Pin Question
   const toggleQuestionPinStatus = async (questionId) => {
     try {
@@ -81,10 +81,10 @@ const InterviewPrep = () => {
         API_PATHS.QUESTION.PIN(questionId)
       );
 
-    
+
 
       if (response.data && response.data.question) {
-        // toast.success('Question Pinned Successfully')
+        toast.success('Question Pinned Successfully')
         fetchSessionDetailsById();
       }
     } catch (error) {
@@ -92,53 +92,53 @@ const InterviewPrep = () => {
     }
   };
 
+
   // Add more questions to a session
-// Add more questions to a session
-const uploadMoreQuestions = async () => {
-  try {
-    // 1. Indicate loading has started
-    setIsUpdateLoader(true);
+  const uploadMoreQuestions = async () => {
+    try {
+      // 1. Indicate loading has started
+      setIsUpdateLoader(true);
 
-    // 2. Call AI API to generate questions
-    const aiResponse = await axiosInstance.post(
-      API_PATHS.AI.GENERATE_QUESTIONS,
-      {
-        role: sessionData?.role,
-        experience: sessionData?.experience,
-        topicsToFocus: sessionData?.topicsToFocus,
-        numberOfQuestions:10
+      // 2. Call AI API to generate questions
+      const aiResponse = await axiosInstance.post(
+        API_PATHS.AI.GENERATE_QUESTIONS,
+        {
+          role: sessionData?.role,
+          experience: sessionData?.experience,
+          topicsToFocus: sessionData?.topicsToFocus,
+          numberOfQuestions: 10
+        }
+      );
+      console.log("Response from backedn", aiResponse)
+      // Should be array like [{question, answer}, ...]
+      const generatedQuestions = aiResponse.data.questions;
+
+      // 3. Add the generated questions to the current session
+      const response = await axiosInstance.post(
+        API_PATHS.QUESTION.ADD_TO_SESSION,
+        {
+          sessionId,
+          questions: generatedQuestions,
+        }
+      );
+
+      // 4. Handle success
+      if (response.data) {
+        toast.success("Added More Q&A!!");
+        fetchSessionDetailsById();
       }
-    );
-console.log("Response from backedn",aiResponse)
-    // Should be array like [{question, answer}, ...]
-    const generatedQuestions = aiResponse.data.questions;
-
-    // 3. Add the generated questions to the current session
-    const response = await axiosInstance.post(
-      API_PATHS.QUESTION.ADD_TO_SESSION,
-      {
-        sessionId,
-        questions: generatedQuestions,
+    } catch (error) {
+      // 5. Handle errors
+      if (error.response && error.response.data.message) {
+        setErrorMsg(error.response.data.message);
+      } else {
+        setErrorMsg("Something went wrong. Please try again.");
       }
-    );
-
-    // 4. Handle success
-    if (response.data) {
-      toast.success("Added More Q&A!!");
-      fetchSessionDetailsById();
+    } finally {
+      // 6. Indicate loading has finished
+      setIsUpdateLoader(false);
     }
-  } catch (error) {
-    // 5. Handle errors
-    if (error.response && error.response.data.message) {
-      setErrorMsg(error.response.data.message);
-    } else {
-      setErrorMsg("Something went wrong. Please try again.");
-    }
-  } finally {
-    // 6. Indicate loading has finished
-    setIsUpdateLoader(false);
-  }
-};
+  };
 
   useEffect(() => {
     if (sessionId) {
@@ -172,7 +172,7 @@ console.log("Response from backedn",aiResponse)
           >
             <AnimatePresence>
               {sessionData?.questions?.map((data, index) => (
-                
+
                 <motion.div
                   layout
                   key={data._id || index}
@@ -190,36 +190,36 @@ console.log("Response from backedn",aiResponse)
                   layoutId={`question-${data._id || index}`}
                 >
                   <>
-                  <QuestionCard
-                    question={data.question}
-                    answer={data.answer}
-                    onLearnMore={() =>
-                      generateConceptExplanation(data.question)
-                    }
-                    isPinned={data.isPinned}
-                    onTogglePin={() =>
-                      toggleQuestionPinStatus(data._id)
-                    }
-                  />
-                  {!isLoading &&
-  sessionData?.questions?.length == index + 1 && (
-    <div className="flex items-center justify-center mt-5">
-      <button
-        className="flex items-center gap-3 text-sm text-white font-medium bg-black px-5 py-2 mr-2 rounded text-nowrap cursor-pointer"
-        disabled={isLoading || isUpdateLoader}
-        onClick={uploadMoreQuestions}
-      >
-        {isUpdateLoader ? (
-          <SpinnerLoader />
-        ) : (
-          <LuListCollapse className="text-lg" />
-        )}
-        {" "}
-        Load More
-      </button>
-    </div>
-  )}
-  </>
+                    <QuestionCard
+                      question={data.question}
+                      answer={data.answer}
+                      onLearnMore={() =>
+                        generateConceptExplanation(data.question)
+                      }
+                      isPinned={data.isPinned}
+                      onTogglePin={() =>
+                        toggleQuestionPinStatus(data._id)
+                      }
+                    />
+                    {!isLoading &&
+                      sessionData?.questions?.length == index + 1 && (
+                        <div className="flex items-center justify-center mt-5">
+                          <button
+                            className="flex items-center gap-3 text-sm text-white font-medium bg-black px-5 py-2 mr-2 rounded text-nowrap cursor-pointer"
+                            disabled={isLoading || isUpdateLoader}
+                            onClick={uploadMoreQuestions}
+                          >
+                            {isUpdateLoader ? (
+                              <SpinnerLoader />
+                            ) : (
+                              <LuListCollapse className="text-lg" />
+                            )}
+                            {" "}
+                            Load More
+                          </button>
+                        </div>
+                      )}
+                  </>
                 </motion.div>
               ))}
             </AnimatePresence>
@@ -228,20 +228,20 @@ console.log("Response from backedn",aiResponse)
         </div>
         <div>
           <Drawer
-  isOpen={openLeanMoreDrawer}
-  onClose={() => setOpenLeanMoreDrawer(false)}
-  title={explanation?.title}
->
-  {errorMsg ? (
-    <p className="flex gap-2 text-sm text-amber-600 font-medium">
-      <LuCircleAlert className="mt-1" /> {errorMsg}
-    </p>
-  ) : isLoading ? (
-    <SkeletonLoader />
-  ) : explanation ? (
-    <AIResponsePreview content={explanation} />
-  ) : null}
-</Drawer>
+            isOpen={openLeanMoreDrawer}
+            onClose={() => setOpenLeanMoreDrawer(false)}
+            title={explanation?.title}
+          >
+            {errorMsg ? (
+              <p className="flex gap-2 text-sm text-amber-600 font-medium">
+                <LuCircleAlert className="mt-1" /> {errorMsg}
+              </p>
+            ) : isLoading ? (
+              <SkeletonLoader />
+            ) : explanation ? (
+              <AIResponsePreview content={explanation} />
+            ) : null}
+          </Drawer>
 
         </div>
       </div>

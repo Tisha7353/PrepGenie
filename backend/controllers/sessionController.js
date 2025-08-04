@@ -3,8 +3,7 @@ import Question from "../models/question.js";
 export const createSession = async (req, res) => {
   try {
     const { role, experience, topicsToFocus, description, questions } = req.body;
-    const userId = req.user._id; // Assuming you have a middleware setting req.user
-
+    const userId = req.user._id; 
     const session = await Session.create({
       user: userId,
       role,
@@ -73,7 +72,7 @@ export const deleteSession = async (req, res) => {
       return res.status(404).json({ message: "Session not found" });
     }
 
-    // Check if the logged-in user owns this session
+    
     if (session.user.toString() !== req.user.id) {
       return res
         .status(401)

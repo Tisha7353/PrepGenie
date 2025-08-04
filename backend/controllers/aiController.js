@@ -22,7 +22,7 @@ export const generateInterviewQuestions = async (req, res) => {
     const response = await result.response;
     text = response.text();
 
-    // Improved JSON extraction
+   
     const extractJSON = (str) => {
       // Case 1: Already valid JSON
       try {

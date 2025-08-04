@@ -2,7 +2,7 @@ import React, {  useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import Input from '../../components/inputs/Input';
 import ProfilePhotoSelector from '../../components/inputs/ProfilePhotoSelector';
-import { validateEmail } from '../../utils/helper';
+import { validateEmail,validatePassword } from '../../utils/helper';
 import { UserContext } from '../../context/UserContext';
 import axiosInstance from '../../utils/axiosInstance';
 import { API_PATHS } from '../../utils/apiPaths';
@@ -31,6 +31,10 @@ const Signup = ({setCurrentPage}) => {
     setError("Please enter the password");
     return;
   }
+  if (!validatePassword(password)) {
+  setError("Password must be at least 8 characters long, include uppercase, lowercase, number, and special character.");
+  return;
+}
   setError("");
   //Signup api call
   try {
